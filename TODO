@@ -1,0 +1,11 @@
+MVP:
+-Switch between users
+-View current user's pokedex (READ)
+-DELETE pokemon from pokedex (set free)
+-End game
+
+-Add command: hunt pokemon (CREATE)
+-Have a random pokemon appear
+-Toss a ball, catch it based on difficulty level
+-Evolve pokemon (UPDATE) and change stats (or just name)
+
