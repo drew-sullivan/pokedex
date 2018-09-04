@@ -21,14 +21,15 @@
     return self;
 }
 
-- (Person *)changeActivePerson:(NSString *)name {
+- (void)changeActivePerson:(NSString *)name {
     for (Person *person in self.people) {
         if ([person.name isEqualToString:name]) {
-            return person;
-            break;
+            self.activePlayer = person;
+            NSLog(@"Active User changed to: %@", self.activePlayer.name);
+            return;
         }
     }
-    return nil;
+    NSLog(@"No such user.");
 }
 
 - (void)printPeople {
@@ -47,6 +48,14 @@
     NSString *inputString = [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding];
     inputString = [inputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     return inputString;
+}
+
+- (NSMutableArray *)getUserNames {
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    for (Person *person in self.people) {
+        [names addObject:person.name];
+    }
+    return names;
 }
 
 @end

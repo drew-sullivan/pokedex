@@ -16,9 +16,10 @@
 @property (assign) BOOL isOngoing;
 
 - (id)initWithStatus:(BOOL)isOngoing;
-- (Person *)changeActivePerson:(NSString *)name;
+- (void)changeActivePerson:(NSString *)name;
 - (void)printPeople;
 - (void)printActivePlayer;
 - (NSString *)getUserInput;
+- (NSMutableArray *)getUserNames;
 
 @end

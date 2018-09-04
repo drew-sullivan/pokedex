@@ -41,7 +41,7 @@ int main(int argc, const char * argv[]) {
         }
         
         
-        NSArray *commands = [NSArray arrayWithObjects:@"SWITCH_USER", @"DONE", @"VIEW_POKEDEX", @"EDIT_POKEDEX", nil];
+        NSArray *commands = [NSArray arrayWithObjects:@"SWITCH_USER", @"DONE", @"VIEW_POKEDEX", @"EDIT_POKEMON", @"RELEASE_POKEMON", nil];
         
         while (rc.isOngoing) {
             NSLog(@"\n(%@) $ Please enter a command:\n%@", rc.activePlayer.name, commands);
@@ -50,25 +50,21 @@ int main(int argc, const char * argv[]) {
                 rc.isOngoing = NO;
                 NSLog(@"All done!");
             } else if ([inputString isEqualToString:@"SWITCH_USER"]) {
-                NSMutableArray *names = [[NSMutableArray alloc] init];
-                for (int i = 0; i < [rc.people count]; i++) {
-                    [names addObject:rc.people[i].name];
-                }
-                
-                NSLog(@"\nTo whom?\n%@", names);
+                NSLog(@"\nTo whom?\n%@", [rc getUserNames]);
                 NSString *inputString = [rc getUserInput];
-                
-                if ([names containsObject:inputString]) {
-                    Person *activePlayer = [rc changeActivePerson:inputString];
-                    rc.activePlayer = activePlayer;
-                    NSLog(@"Active User changed to: %@", rc.activePlayer.name);
-                } else {
-                    NSLog(@"No such user.");
-                }
+                [rc changeActivePerson:inputString];
             } else if ([inputString isEqualToString:@"VIEW_POKEDEX"]) {
                 [rc.activePlayer viewPokedex];
-            } else if ([inputString isEqualToString:@"EDIT_POKEDEX"]) {
-                
+            } else if ([inputString isEqualToString:@"EDIT_POKEMON"]) {
+                NSLog(@"\nWhich pokemon's name would you like to change?\n");
+                NSString *nameOfPokemonToEdit = [rc getUserInput];
+                NSLog(@"\nWhat would you like to change it to?\n");
+                NSString *newName = [rc getUserInput];
+                [rc.activePlayer changePokemonName:nameOfPokemonToEdit changeTo:newName];
+            } else if ([inputString isEqualToString:@"RELEASE_POKEMON"]) {
+                NSLog(@"\nWhich pokemon would you like to release?\n");
+                NSString *name = [rc getUserInput];
+                [rc.activePlayer releasePokemon:name];
             } else {
                 continue;
             }

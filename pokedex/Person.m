@@ -37,16 +37,25 @@
     NSLog(@"%@ added to %@'s pokedex", pokemon.name, self.name);
 }
 
-- (Pokemon *)deletePokemon:(NSString *)pokemonName {
-    Pokemon *saved;
+- (void)releasePokemon:(NSString *)pokemonName {
     for (int i = 0; i < [self.pokedex count]; i++) {
         Pokemon *pokemon = self.pokedex[i];
         if ([pokemonName isEqualToString:pokemon.name]) {
-            saved = pokemon;
             [self.pokedex removeObjectAtIndex:i];
+            NSLog(@"%@ has been released", pokemonName);
+            return;
         }
     }
-    return saved;
+}
+
+- (void)changePokemonName:(NSString *)oldName changeTo:(NSString *)newName {
+    for (Pokemon *pokemon in self.pokedex) {
+        if ([pokemon.name isEqualToString:oldName]) {
+            pokemon.name = newName;
+            NSLog(@"%@ has been changed to %@", oldName, newName);
+            return;
+        }
+    }
 }
 
 @end

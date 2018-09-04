@@ -19,5 +19,7 @@
 - (id) initWithName:(NSString *)name;
 - (void)viewPokedex;
 - (void)addPokemon:(Pokemon *)pokemon;
+- (void)releasePokemon:(NSString *)pokemonName;
+- (void)changePokemonName:(NSString *)oldName changeTo:(NSString *)newName;
 
 @end
