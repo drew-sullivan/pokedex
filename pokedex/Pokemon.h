@@ -9,7 +9,8 @@
 @interface Pokemon : NSObject
 
 @property (nonatomic, strong) NSString *name;
-@property (assign) int captureDifficulty;
+@property (assign) int captureDifficulty; // 80 = 80% capture success
+@property (assign) int value;
 
 - (id)initWithNameAndCaptureDifficulty:(NSString *)name and:(int)captureDifficulty;
 

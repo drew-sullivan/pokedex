@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         self.name = name;
+        self.numPokeballs = 10;
         self.pokedex = [[NSMutableArray alloc] init];
     }
     return self;
@@ -56,6 +57,31 @@
             return;
         }
     }
+}
+
+- (void)attemptToCapture:(Pokemon *)pokemon {
+    self.numPokeballs -= 1;
+    NSLog(@"You tossed a pokeball! (%i remaining)", self.numPokeballs);
+    
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
+    NSRunLoop *runner = [NSRunLoop mainRunLoop];
+    [runner addTimer:timer forMode:NSDefaultRunLoopMode];
+//    [timer invalidate];
+    
+    
+    int difficulty = pokemon.captureDifficulty;
+    int rand = arc4random_uniform(50);
+    if (rand <= difficulty) {
+        NSLog(@"You caught %@!", pokemon.name);
+        [self.pokedex addObject:pokemon];
+    } else {
+        NSLog(@"%@ got away!", pokemon.name);
+    }
+}
+
+- (void) timerFired:(NSTimer*)theTimer
+{
+    NSLog(@"yay");
 }
 
 @end

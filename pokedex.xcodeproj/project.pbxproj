@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7C25DF6F21388CC90088C833 /* Pokemon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C25DF6E21388CC90088C833 /* Pokemon.m */; };
+		7C25DF76213F04970088C833 /* PokemonStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 7C25DF75213F04970088C833 /* PokemonStore.m */; };
 		7CE985392135D8C800096552 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE985382135D8C800096552 /* main.m */; };
 		7CE985412135DA2700096552 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE985402135DA2700096552 /* Person.m */; };
 		7CE985452135DBCA00096552 /* RealityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CE985442135DBCA00096552 /* RealityController.m */; };
@@ -29,6 +30,8 @@
 		7C25DF6D21388B2F0088C833 /* Pokemon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pokemon.h; sourceTree = "<group>"; };
 		7C25DF6E21388CC90088C833 /* Pokemon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Pokemon.m; sourceTree = "<group>"; };
 		7C25DF7021388EE50088C833 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		7C25DF74213F048B0088C833 /* PokemonStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PokemonStore.h; sourceTree = "<group>"; };
+		7C25DF75213F04970088C833 /* PokemonStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PokemonStore.m; sourceTree = "<group>"; };
 		7CE985352135D8C800096552 /* pokedex */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = pokedex; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CE985382135D8C800096552 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7CE9853F2135D99100096552 /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
@@ -69,6 +72,8 @@
 			isa = PBXGroup;
 			children = (
 				7CE985382135D8C800096552 /* main.m */,
+				7C25DF74213F048B0088C833 /* PokemonStore.h */,
+				7C25DF75213F04970088C833 /* PokemonStore.m */,
 				7CE9853F2135D99100096552 /* Person.h */,
 				7CE985402135DA2700096552 /* Person.m */,
 				7CE985432135DB4B00096552 /* RealityController.h */,
@@ -137,6 +142,7 @@
 			files = (
 				7CE985452135DBCA00096552 /* RealityController.m in Sources */,
 				7C25DF6F21388CC90088C833 /* Pokemon.m in Sources */,
+				7C25DF76213F04970088C833 /* PokemonStore.m in Sources */,
 				7CE985412135DA2700096552 /* Person.m in Sources */,
 				7CE985392135D8C800096552 /* main.m in Sources */,
 			);
