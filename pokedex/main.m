@@ -33,7 +33,15 @@ int main(int argc, const char * argv[]) {
         
         rc.activePlayer = drew;
         
-        NSArray *commands = [NSArray arrayWithObjects:@"SWITCH_USER", @"DONE", @"READ_POKEDEX", nil];
+        for (Person *person in rc.people) {
+            [person addPokemon:pikachu];
+            [person addPokemon:squirtle];
+            [person addPokemon:charmander];
+            [person addPokemon:bulbasaur];
+        }
+        
+        
+        NSArray *commands = [NSArray arrayWithObjects:@"SWITCH_USER", @"DONE", @"VIEW_POKEDEX", @"EDIT_POKEDEX", nil];
         
         while (rc.isOngoing) {
             NSLog(@"\n(%@) $ Please enter a command:\n%@", rc.activePlayer.name, commands);
@@ -57,9 +65,10 @@ int main(int argc, const char * argv[]) {
                 } else {
                     NSLog(@"No such user.");
                 }
-            } else if ([inputString isEqualToString:@"READ_POKEDEX"]) {
-                rc.isOngoing = NO;
-                NSLog(@"All done!");
+            } else if ([inputString isEqualToString:@"VIEW_POKEDEX"]) {
+                [rc.activePlayer viewPokedex];
+            } else if ([inputString isEqualToString:@"EDIT_POKEDEX"]) {
+                
             } else {
                 continue;
             }

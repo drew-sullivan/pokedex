@@ -6,13 +6,18 @@
 //  Copyright © 2018 Drew Sullivan, DMA. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#import "Pokemon.h"
+
 @interface Person : NSObject
 
 @property (nonatomic, strong) NSString *name;
 @property (assign) BOOL isActive;
-//@property (nonatomic, strong) Pokedex *pokedex;
+@property (nonatomic, strong) NSMutableArray<Pokemon*> *pokedex;
 
 - (void)printName;
 - (id) initWithName:(NSString *)name;
+- (void)viewPokedex;
+- (void)addPokemon:(Pokemon *)pokemon;
 
 @end
