@@ -16,7 +16,7 @@
     if (self) {
         self.name = name;
         self.captureDifficulty = captureDifficulty;
-        self.value = arc4random_uniform(10);
+        self.value = arc4random_uniform(3);
     }
     return self;
 }

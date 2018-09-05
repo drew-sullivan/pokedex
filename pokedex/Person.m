@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Person.h"
 #import "Pokemon.h"
+#import "PokemonStore.h"
 
 @implementation Person
 
@@ -29,7 +30,12 @@
 - (void)viewPokedex {
     NSLog(@"%@'s pokedex:\n", self.name);
     for (int i = 0; i < [self.pokedex count]; i++) {
-        NSLog(@"[%i] %@", i + 1, self.pokedex[i].name);
+        int index = i + 1;
+        Pokemon *pokemon = self.pokedex[i];
+        NSString *name = pokemon.name;
+        int tradeValue = pokemon.value;
+        int captureDifficulty = pokemon.captureDifficulty;
+        NSLog(@"[%i] %@ (trade value: %i, capture likelihood: %i%%)", index, name, tradeValue, captureDifficulty);
     }
 }
 
@@ -60,28 +66,42 @@
 }
 
 - (void)attemptToCapture:(Pokemon *)pokemon {
-    self.numPokeballs -= 1;
-    NSLog(@"You tossed a pokeball! (%i remaining)", self.numPokeballs);
-    
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
-    NSRunLoop *runner = [NSRunLoop mainRunLoop];
-    [runner addTimer:timer forMode:NSDefaultRunLoopMode];
-//    [timer invalidate];
-    
-    
-    int difficulty = pokemon.captureDifficulty;
-    int rand = arc4random_uniform(50);
-    if (rand <= difficulty) {
-        NSLog(@"You caught %@!", pokemon.name);
+    if (pokemon.captureDifficulty >= 80) {
+        NSLog(@"%@ wanted to join you without you having to try! No pokeballs used!", pokemon.name);
         [self.pokedex addObject:pokemon];
     } else {
-        NSLog(@"%@ got away!", pokemon.name);
+        self.numPokeballs -= 1;
+        NSLog(@"You tossed a pokeball! (%i remaining)", self.numPokeballs);
+        int difficulty = pokemon.captureDifficulty;
+        int rand = arc4random_uniform(50);
+        if (rand <= difficulty) {
+            NSLog(@"You caught %@!", pokemon.name);
+            [self.pokedex addObject:pokemon];
+        } else {
+            NSLog(@"%@ got away!", pokemon.name);
+        }
     }
 }
 
-- (void) timerFired:(NSTimer*)theTimer
-{
-    NSLog(@"yay");
+- (BOOL)doesOwnPokemon:(NSString *)name {
+    for (Pokemon *pokemon in self.pokedex) {
+        if ([name isEqualToString:pokemon.name]) {
+            return TRUE;
+        }
+    }
+    return false;
+}
+
+- (void)tradeInPokemon:(NSString *)pokemonName; {
+    for (int i = 0; i < [self.pokedex count]; i++) {
+        Pokemon *pokemon = self.pokedex[i];
+        if ([pokemonName isEqualToString:pokemon.name]) {
+            [self.pokedex removeObjectAtIndex:i];
+            self.numPokeballs += pokemon.value;
+            NSLog(@"%@ has been traded for %i pokeballs (%i pokeballs now)", pokemonName, pokemon.value, self.numPokeballs);
+            return;
+        }
+    }
 }
 
 @end

@@ -15,6 +15,7 @@
 @property (assign) BOOL isActive;
 @property (nonatomic, strong) NSMutableArray<Pokemon*> *pokedex;
 @property (assign) int numPokeballs;
+@property (strong, nonatomic) NSTimer *timer;
 
 - (void)printName;
 - (id) initWithName:(NSString *)name;
@@ -23,5 +24,7 @@
 - (void)releasePokemon:(NSString *)pokemonName;
 - (void)changePokemonName:(NSString *)oldName changeTo:(NSString *)newName;
 - (void)attemptToCapture:(Pokemon *)pokemon;
+- (BOOL)doesOwnPokemon:(NSString *)pokemonName;
+- (void)tradeInPokemon:(NSString *)pokemonName;
 
 @end

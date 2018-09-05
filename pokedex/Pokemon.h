@@ -10,7 +10,7 @@
 
 @property (nonatomic, strong) NSString *name;
 @property (assign) int captureDifficulty; // 80 = 80% capture success
-@property (assign) int value;
+@property (assign) int value; // # pokeballs this pokemon can be traded for
 
 - (id)initWithNameAndCaptureDifficulty:(NSString *)name and:(int)captureDifficulty;
 
