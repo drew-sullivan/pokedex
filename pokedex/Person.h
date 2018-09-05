@@ -26,5 +26,6 @@
 - (void)attemptToCapture:(Pokemon *)pokemon;
 - (BOOL)doesOwnPokemon:(NSString *)pokemonName;
 - (void)tradeInPokemon:(NSString *)pokemonName;
+- (BOOL)userOwnsPokemon:(NSString *)pokemonName;
 
 @end

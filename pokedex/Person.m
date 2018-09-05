@@ -17,7 +17,7 @@
     self = [super init];
     if (self) {
         self.name = name;
-        self.numPokeballs = 10;
+        self.numPokeballs = 3;
         self.pokedex = [[NSMutableArray alloc] init];
     }
     return self;
@@ -28,6 +28,10 @@
 }
 
 - (void)viewPokedex {
+    if ([self.pokedex count] < 1) {
+        NSLog(@"%@'s pokedex is empty!", self.name);
+        return;
+    }
     NSLog(@"%@'s pokedex:\n", self.name);
     for (int i = 0; i < [self.pokedex count]; i++) {
         int index = i + 1;
@@ -35,7 +39,7 @@
         NSString *name = pokemon.name;
         int tradeValue = pokemon.value;
         int captureDifficulty = pokemon.captureDifficulty;
-        NSLog(@"[%i] %@ (trade value: %i, capture likelihood: %i%%)", index, name, tradeValue, captureDifficulty);
+        NSLog(@"[%i] %@ (trade value: %i, capture likelihood: %i%%)\n", index, name, tradeValue, captureDifficulty);
     }
 }
 
@@ -47,7 +51,7 @@
 - (void)releasePokemon:(NSString *)pokemonName {
     for (int i = 0; i < [self.pokedex count]; i++) {
         Pokemon *pokemon = self.pokedex[i];
-        if ([pokemonName isEqualToString:pokemon.name]) {
+        if ([[pokemonName lowercaseString] isEqualToString:[pokemon.name lowercaseString]]) {
             [self.pokedex removeObjectAtIndex:i];
             NSLog(@"%@ has been released", pokemonName);
             return;
@@ -57,9 +61,10 @@
 
 - (void)changePokemonName:(NSString *)oldName changeTo:(NSString *)newName {
     for (Pokemon *pokemon in self.pokedex) {
-        if ([pokemon.name isEqualToString:oldName]) {
-            pokemon.name = newName;
-            NSLog(@"%@ has been changed to %@", oldName, newName);
+        if ([[pokemon.name lowercaseString] isEqualToString:oldName]) {
+            NSString *capitalizedNameString = [newName capitalizedString];
+            pokemon.name = capitalizedNameString;
+            NSLog(@"%@ has been changed to %@", oldName, capitalizedNameString);
             return;
         }
     }
@@ -85,7 +90,7 @@
 
 - (BOOL)doesOwnPokemon:(NSString *)name {
     for (Pokemon *pokemon in self.pokedex) {
-        if ([name isEqualToString:pokemon.name]) {
+        if ([[name lowercaseString] isEqualToString:[pokemon.name lowercaseString]]) {
             return TRUE;
         }
     }
@@ -95,10 +100,10 @@
 - (void)tradeInPokemon:(NSString *)pokemonName; {
     for (int i = 0; i < [self.pokedex count]; i++) {
         Pokemon *pokemon = self.pokedex[i];
-        if ([pokemonName isEqualToString:pokemon.name]) {
+        if ([[pokemonName lowercaseString] isEqualToString:[pokemon.name lowercaseString]]) {
             [self.pokedex removeObjectAtIndex:i];
             self.numPokeballs += pokemon.value;
-            NSLog(@"%@ has been traded for %i pokeballs (%i pokeballs now)", pokemonName, pokemon.value, self.numPokeballs);
+            NSLog(@"%@ has been traded for %i pokeballs (%i pokeballs now).", pokemonName, pokemon.value, self.numPokeballs);
             return;
         }
     }

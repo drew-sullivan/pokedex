@@ -23,7 +23,7 @@
 
 - (void)changeActivePerson:(NSString *)name {
     for (Person *person in self.people) {
-        if ([person.name isEqualToString:name]) {
+        if ([[person.name lowercaseString]isEqualToString:[name lowercaseString]]) {
             self.activePlayer = person;
             NSLog(@"Active User changed to: %@", self.activePlayer.name);
             return;
@@ -47,15 +47,26 @@
     NSData *inputData = [NSData dataWithData:[input availableData]];
     NSString *inputString = [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding];
     inputString = [inputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    return inputString;
+    NSString *userInput = [inputString lowercaseString];
+    return userInput;
 }
 
 - (NSMutableArray *)getUserNames {
     NSMutableArray *names = [[NSMutableArray alloc] init];
     for (Person *person in self.people) {
-        [names addObject:person.name];
+        [names addObject:[person.name capitalizedString]];
     }
     return names;
+}
+
+- (void)printCommands {
+    NSArray *COMMANDS = [NSArray arrayWithObjects:@"s = Switch user", @"p = view Pokedex", @"e = Edit pokemon name", @"r = Release pokemon", @"h = Hunt pokemon", @"c = Create user", @"t = Trade pokemon", @"d = Done", nil];
+    NSLog(@"\n");
+    NSLog(@"COMMANDS:\n");
+    for (NSString *command in COMMANDS) {
+        NSLog(@"%@", command);
+    }
+    NSLog(@"\n");
 }
 
 @end

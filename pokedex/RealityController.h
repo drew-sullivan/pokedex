@@ -21,5 +21,6 @@
 - (void)printActivePlayer;
 - (NSString *)getUserInput;
 - (NSMutableArray *)getUserNames;
+- (void)printCommands;
 
 @end

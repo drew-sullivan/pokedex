@@ -41,62 +41,82 @@ int main(int argc, const char * argv[]) {
             [person addPokemon:bulbasaur];
         }
         
-        NSArray *commands = [NSArray arrayWithObjects:@"SWITCH_USER", @"DONE", @"POKEDEX", @"EDIT", @"RELEASE", @"HUNT", @"CREATE_USER", @"TRADE", nil];
+        
         
         while (rc.isOngoing) {
-            NSLog(@"(%@) $ Please enter a command:\n%@", rc.activePlayer.name, commands);
+            [rc printCommands];
+            NSLog(@"(%@) $ Please enter a command:", rc.activePlayer.name);
             NSString *inputString = [rc getUserInput];
-            if ([inputString isEqualToString:@"DONE"]) {
+            if ([inputString isEqualToString:@"d"]) {
                 rc.isOngoing = NO;
-                NSLog(@"All done!");
-            } else if ([inputString isEqualToString:@"SWITCH_USER"]) {
-                NSLog(@"To whom?%@", [rc getUserNames]);
-                NSString *inputString = [rc getUserInput];
-                [rc changeActivePerson:inputString];
-            } else if ([inputString isEqualToString:@"POKEDEX"]) {
+                NSLog(@"Thanks for playing!");
+            } else if ([inputString isEqualToString:@"s"]) {
+                NSLog(@"To whom? %@", [rc getUserNames]);
+                NSString *name = [rc getUserInput];
+                [rc changeActivePerson:name];
+            } else if ([inputString isEqualToString:@"p"]) {
                 [rc.activePlayer viewPokedex];
-            } else if ([inputString isEqualToString:@"EDIT"]) {
-                NSLog(@"Which pokemon's name would you like to change?\n");
+            } else if ([inputString isEqualToString:@"e"]) {
+                [rc.activePlayer viewPokedex];
+                NSLog(@"Which pokemon's name would you like to change?");
                 NSString *nameOfPokemonToEdit = [rc getUserInput];
-                NSLog(@"What would you like to change it to?\n");
-                NSString *newName = [rc getUserInput];
-                [rc.activePlayer changePokemonName:nameOfPokemonToEdit changeTo:newName];
-            } else if ([inputString isEqualToString:@"RELEASE"]) {
+                BOOL userDoesOwnPokemon = [rc.activePlayer doesOwnPokemon:nameOfPokemonToEdit];
+                if (userDoesOwnPokemon) {
+                    NSLog(@"What would you like to change it to?\n");
+                    NSString *newName = [rc getUserInput];
+                    [rc.activePlayer changePokemonName:nameOfPokemonToEdit changeTo:newName];
+                } else {
+                    NSLog(@"You don't own a pokemon by the name %@.", nameOfPokemonToEdit);
+                }
+            } else if ([inputString isEqualToString:@"r"]) {
+                [rc.activePlayer viewPokedex];
                 NSLog(@"Which pokemon would you like to release?");
                 NSString *name = [rc getUserInput];
-                [rc.activePlayer releasePokemon:name];
-            } else if ([inputString isEqualToString:@"HUNT"]) {
+                BOOL userDoesOwnPokemon = [rc.activePlayer doesOwnPokemon:name];
+                if (userDoesOwnPokemon) {
+                    [rc.activePlayer releasePokemon:name];
+                    [rc.activePlayer viewPokedex];
+                } else {
+                    NSLog(@"You don't own a pokemon by the name %@.", name);
+                }
+            } else if ([inputString isEqualToString:@"h"]) {
                 NSLog(@"You are hunting for pokemon...");
                 Pokemon *randomPokemon = [PokemonStore generateRandomPokemon];
                 NSLog(@"You see a wild %@!", randomPokemon.name);
                 if (rc.activePlayer.numPokeballs < 1) {
-                    NSLog(@"You do not have enough pokeballs. Try selling one of your pokemon.");
+                    NSLog(@"You do not have enough pokeballs. Try trading in one of your pokemon for more.");
                 } else {
-                    NSLog(@"You currently have %i pokeballs. Do you want to try to catch the %@? (YES or NO)", rc.activePlayer.numPokeballs, randomPokemon.name);
+                    NSLog(@"You currently have %i pokeballs. Do you want to try to catch the %@? (YES or NO).", rc.activePlayer.numPokeballs, randomPokemon.name);
                     NSString *inputString = [rc getUserInput];
-                    if ([inputString isEqualToString:@"YES"]) {
+                    if ([inputString isEqualToString:[@"YES" lowercaseString]]) {
                         [rc.activePlayer attemptToCapture:randomPokemon];
+                        [rc.activePlayer viewPokedex];
                     }
                 }
-            } else if ([inputString isEqualToString:@"CREATE_USER"]) {
+            } else if ([inputString isEqualToString:@"c"]) {
                 NSLog(@"Name?");
                 NSString *name = [rc getUserInput];
-                Person *newPerson = [[Person alloc] initWithName:name];
+                Person *newPerson = [[Person alloc] initWithName:[name capitalizedString]];
                 [rc.people addObject:newPerson];
-                NSLog(@"%@ has been added", name);
-            } else if ([inputString isEqualToString:@"TRADE"]) {
+                NSLog(@"%@ has been added.", newPerson.name);
+            } else if ([inputString isEqualToString:@"t"]) {
                 [rc.activePlayer viewPokedex];
                 NSLog(@"Which pokemon would you like to trade in?");
                 NSString *name = [rc getUserInput];
                 BOOL ownsPokemon = [rc.activePlayer doesOwnPokemon:name];
                 if (ownsPokemon) {
-                    NSLog(@"Are you sure you'd like to trade in %@? YES or NO", name);
+                    NSLog(@"Are you sure you'd like to trade in %@? YES or NO.", name);
                     NSString *answer = [rc getUserInput];
-                    if ([answer isEqualToString:@"YES"]) {
+                    if ([answer isEqualToString:[@"YES" lowercaseString]]) {
                         [rc.activePlayer tradeInPokemon:name];
+                        [rc.activePlayer viewPokedex];
+                    } else {
+                        NSLog(@"No pokemon traded in.");
                     }
+                } else {
+                    [rc.activePlayer viewPokedex];
+                    NSLog(@"You don't own a pokemon by the name %@.", name);
                 }
-                
             }
         }
     }
