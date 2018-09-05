@@ -10,9 +10,12 @@
 #import "RealityController.h"
 #import "Person.h"
 
+static NSArray *COMMANDS = nil;
+
 @implementation RealityController
 
 - (id)initWithStatus:(BOOL)isOngoing {
+    COMMANDS = [NSArray arrayWithObjects:@"s = Switch user", @"p = view Pokedex", @"e = Edit pokemon name", @"r = Release pokemon", @"h = Hunt pokemon", @"c = Create user", @"t = Trade pokemon", @"d = Done", nil];
     self = [super init];
     if (self) {
         self.isOngoing = isOngoing;
@@ -60,13 +63,51 @@
 }
 
 - (void)printCommands {
-    NSArray *COMMANDS = [NSArray arrayWithObjects:@"s = Switch user", @"p = view Pokedex", @"e = Edit pokemon name", @"r = Release pokemon", @"h = Hunt pokemon", @"c = Create user", @"t = Trade pokemon", @"d = Done", nil];
     NSLog(@"\n");
     NSLog(@"COMMANDS:\n");
     for (NSString *command in COMMANDS) {
         NSLog(@"%@", command);
     }
     NSLog(@"\n");
+}
+
+- (NSMutableArray *)getShorthandCommands {
+    NSMutableArray *shorthandCommands = [[NSMutableArray alloc] init];
+    for (NSString *command in COMMANDS) {
+        NSString *shorthandCommand = [command substringToIndex:1];
+        [shorthandCommands addObject:shorthandCommand];
+    }
+    return shorthandCommands;
+}
+
+- (BOOL)isNamespaced:(NSString *)letter {
+    for (NSString *shorthandCommand in [self getShorthandCommands]) {
+        if ([letter isEqualToString:shorthandCommand]) {
+            NSLog(@"Sorry! That's a namespaced command!");
+            return true;
+        }
+    }
+    return false;
+}
+
+- (BOOL)isNameUnique:(NSString *)name {
+    for (NSString *existingName in [self getUserNames]) {
+        if ([name isEqualToString:[existingName lowercaseString]]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+- (NSString *)getNewName:(NSString *)oldName {
+    NSString *numberString;
+    NSScanner *scanner = [NSScanner scannerWithString:oldName];
+    NSCharacterSet *numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    [scanner scanUpToCharactersFromSet:numbers intoString:NULL];
+    [scanner scanCharactersFromSet:numbers intoString:&numberString];
+    int number = [numberString integerValue];
+    NSString *newName = [NSString stringWithFormat:@"%@-%i", oldName, number + 1];
+    return newName;
 }
 
 @end

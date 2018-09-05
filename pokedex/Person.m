@@ -28,6 +28,7 @@
 }
 
 - (void)viewPokedex {
+    NSLog(@"\n");
     if ([self.pokedex count] < 1) {
         NSLog(@"%@'s pokedex is empty!", self.name);
         return;

@@ -14,6 +14,7 @@
 @property (nonatomic, strong) Person *activePlayer;
 @property (nonatomic, strong) NSMutableArray<Person*> *people;
 @property (assign) BOOL isOngoing;
+@property (assign) char previousCommand;
 
 - (id)initWithStatus:(BOOL)isOngoing;
 - (void)changeActivePerson:(NSString *)name;
@@ -22,5 +23,9 @@
 - (NSString *)getUserInput;
 - (NSMutableArray *)getUserNames;
 - (void)printCommands;
+- (NSMutableArray *)getShorthandCommands;
+- (BOOL)isNamespaced:(NSString *)userInput;
+- (BOOL)isNameUnique:(NSString *)name;
+- (NSString *)getNewName:(NSString *)name;
 
 @end
