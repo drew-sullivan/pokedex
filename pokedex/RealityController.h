@@ -35,7 +35,8 @@
 - (void)performCreateUserSequence;
 - (void)performDoneSequence;
 - (void)performTradeSequence;
-- (void)performRegisterUserSequence;
+- (void)performRegisterUserSequence:(BOOL)testDataIsNotPresent;
 - (void)performIntroSequence;
+- (BOOL)addTestData:(BOOL)shouldAddTestData;
 
 @end

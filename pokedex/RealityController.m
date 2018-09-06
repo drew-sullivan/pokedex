@@ -251,21 +251,52 @@ static NSArray *COMMANDS = nil;
     }
 }
 
-- (void)performRegisterUserSequence {
-    NSLog(@"Please enter your name:");
-    NSString *userInput = [PokeUtility getUserInput];
-    BOOL userInputIsNamespaced = [self isNamespaced:userInput];
-    if (!userInputIsNamespaced) {
-        User *newUser = [[User alloc] initWithName:[userInput capitalizedString]];
-        [self.users addObject:newUser];
-        self.activeUser = newUser;
-        NSLog(@"Welcome, %@!", newUser.name);
+- (void)performRegisterUserSequence:(BOOL)testDataIsPresent {
+    if (!testDataIsPresent) {
+        NSLog(@"Please enter your name:");
+        NSString *userInput = [PokeUtility getUserInput];
+        BOOL userInputIsNamespaced = [self isNamespaced:userInput];
+        if (!userInputIsNamespaced) {
+            User *newUser = [[User alloc] initWithName:[userInput capitalizedString]];
+            [self.users addObject:newUser];
+            self.activeUser = newUser;
+            NSLog(@"Welcome, %@!", newUser.name);
+        }
     }
 }
 
 - (void)performIntroSequence {
     [self printCommands];
     NSLog(@"What would you like to do now, %@?", self.activeUser.name);
+}
+
+- (BOOL)addTestData:(BOOL)shouldAddTestData {
+    if (shouldAddTestData) {
+        User *drew = [[User alloc] initWithName:@"Drew"];
+        User *rebecca = [[User alloc] initWithName:@"Rebecca"];
+        User *cooper = [[User alloc] initWithName:@"Cooper"];
+        User *abbott = [[User alloc] initWithName:@"Abbott"];
+        
+        [self.users addObject:drew];
+        [self.users addObject:rebecca];
+        [self.users addObject:cooper];
+        [self.users addObject:abbott];
+        
+        Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
+        Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
+        Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
+        Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
+        
+        for (User *user in self.users) {
+            [user addPokemon:pikachu];
+            [user addPokemon:squirtle];
+            [user addPokemon:charmander];
+            [user addPokemon:bulbasaur];
+        }
+        self.activeUser = drew;
+        return YES;
+    }
+    return NO;
 }
 
 

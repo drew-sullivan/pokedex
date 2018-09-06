@@ -9,5 +9,6 @@
 @interface PokeUtility : NSObject { }
 
 + (NSString *)getUserInput;
++ (void)addTestData:(BOOL)shouldAddTestData;
 
 @end

@@ -18,32 +18,9 @@ int main(int argc, const char * argv[]) {
     @autoreleasepool {
         RealityController *rc = [[RealityController alloc] initWithStatus:YES];
         
-        // Uncomment to test
-//        User *drew = [[User alloc] initWithName:@"Drew"];
-//        User *rebecca = [[User alloc] initWithName:@"Rebecca"];
-//        User *cooper = [[User alloc] initWithName:@"Cooper"];
-//        User *abbott = [[User alloc] initWithName:@"Abbott"];
-//
-//        [rc.users addObject:drew];
-//        [rc.users addObject:rebecca];
-//        [rc.users addObject:cooper];
-//        [rc.users addObject:abbott];
-//
-//        Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
-//        Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
-//        Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
-//        Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
-//
-//        for (User *user in rc.users) {
-//            [user addPokemon:pikachu];
-//            [user addPokemon:squirtle];
-//            [user addPokemon:charmander];
-//            [user addPokemon:bulbasaur];
-//        }
-//
-//        rc.activeUser = drew;
+        BOOL testDataIsPresent = [rc addTestData:NO];
         
-        [rc performRegisterUserSequence];
+        [rc performRegisterUserSequence:testDataIsPresent];
         
         while (rc.isOngoing) {
             [rc performIntroSequence];
