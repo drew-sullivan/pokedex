@@ -51,6 +51,7 @@ int main(int argc, const char * argv[]) {
 //            NSLog(@"Welcome, %@", newPerson.name);
 //        }
         
+        [rc printGameStatus];
         
         while (rc.isOngoing) {
             [rc printCommands];
@@ -80,12 +81,13 @@ int main(int argc, const char * argv[]) {
                         NSString *newName = [rc getUserInput];
                         [rc.activePlayer changePokemonName:userInput changeTo:newName];
                     } else {
-                        NSLog(@"You don't own a pokemon by the name %@.", userInput);
+                        NSLog(@"That is not a pokemon you own.");
+                        [rc.activePlayer viewPokedex];
                     }
                 }
             } else if ([inputString isEqualToString:@"r"]) {
                 [rc.activePlayer viewPokedex];
-                NSLog(@"Which pokemon would you like to release?");
+                NSLog(@"Which pokemon would you like to release? You'll receive 1 pokeball back.");
                 NSString *userInput = [rc getUserInput];
                 BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
                 if (!userInputIsNamespaced) {
@@ -94,7 +96,8 @@ int main(int argc, const char * argv[]) {
                         [rc.activePlayer releasePokemon:userInput];
                         [rc.activePlayer viewPokedex];
                     } else {
-                        NSLog(@"You don't own a pokemon by the name %@.", userInput);
+                        NSLog(@"That is not a pokemon you own.");
+                        [rc.activePlayer viewPokedex];
                     }
                 }
             } else if ([inputString isEqualToString:@"h"]) {
@@ -102,7 +105,7 @@ int main(int argc, const char * argv[]) {
                 Pokemon *randomPokemon = [PokemonStore generateRandomPokemon];
                 NSLog(@"You see a wild %@!", randomPokemon.name);
                 if (rc.activePlayer.numPokeballs < 1) {
-                    NSLog(@"You do not have enough pokeballs. Try trading in one of your pokemon for more.");
+                    NSLog(@"You do not have enough pokeballs. Try trading in or releasing one of your pokemon.");
                 } else {
                     NSLog(@"You currently have %i pokeballs. Do you want to try to catch the %@? Y/N.", rc.activePlayer.numPokeballs, randomPokemon.name);
                     NSString *userInput = [rc getUserInput];
@@ -138,7 +141,7 @@ int main(int argc, const char * argv[]) {
                 if (!userInputIsNamespaced) {
                     BOOL ownsPokemon = [rc.activePlayer doesOwnPokemon:userInput];
                     if (ownsPokemon) {
-                        NSLog(@"Are you sure you'd like to trade in %@? Y/N.", userInput);
+                        NSLog(@"Are you sure you'd like to trade in this pokemon? Y/N.");
                         NSString *answer = [rc getUserInput];
                         if ([answer isEqualToString:@"y"]) {
                             [rc.activePlayer tradeInPokemon:userInput];
@@ -148,10 +151,11 @@ int main(int argc, const char * argv[]) {
                         }
                     } else {
                         [rc.activePlayer viewPokedex];
-                        NSLog(@"You don't own a pokemon by the name %@.", userInput);
+                        NSLog(@"You don't own a pokemon by that name.");
                     }
                 }
-                
+            } else if ([inputString isEqualToString:@"g"]) {
+                [rc printGameStatus];
             } else {
                 NSLog(@"Unknown command. Please try another.");
             }

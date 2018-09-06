@@ -35,7 +35,7 @@
     }
     NSLog(@"%@'s pokedex:\n", self.name);
     for (int i = 0; i < [self.pokedex count]; i++) {
-        int index = i + 1;
+        int index = i;
         Pokemon *pokemon = self.pokedex[i];
         NSString *name = pokemon.name;
         int tradeValue = pokemon.value;
@@ -49,23 +49,28 @@
     NSLog(@"%@ added to %@'s pokedex", pokemon.name, self.name);
 }
 
-- (void)releasePokemon:(NSString *)pokemonName {
+- (void)releasePokemon:(NSString *)pokemonIdentifier {
     for (int i = 0; i < [self.pokedex count]; i++) {
         Pokemon *pokemon = self.pokedex[i];
-        if ([[pokemonName lowercaseString] isEqualToString:[pokemon.name lowercaseString]]) {
+        if ([[pokemonIdentifier lowercaseString] isEqualToString:[pokemon.name lowercaseString]] ||
+            [pokemonIdentifier isEqualToString:[NSString stringWithFormat:@"%i", i]]) {
             [self.pokedex removeObjectAtIndex:i];
-            NSLog(@"%@ has been released", pokemonName);
+            self.numPokeballs += 1;
+            NSLog(@"Pokemon released (%i pokeballs now).", self.numPokeballs);
             return;
         }
     }
 }
 
-- (void)changePokemonName:(NSString *)oldName changeTo:(NSString *)newName {
-    for (Pokemon *pokemon in self.pokedex) {
-        if ([[pokemon.name lowercaseString] isEqualToString:oldName]) {
+- (void)changePokemonName:(NSString *)pokemonIdentifier changeTo:(NSString *)newName {
+    for (int i = 0; i < [self.pokedex count]; i++) {
+        Pokemon *pokemon = self.pokedex[i];
+        if ([[pokemonIdentifier lowercaseString] isEqualToString:[pokemon.name lowercaseString]] ||
+            [pokemonIdentifier isEqualToString:[NSString stringWithFormat:@"%i", i]]) {
             NSString *capitalizedNameString = [newName capitalizedString];
             pokemon.name = capitalizedNameString;
-            NSLog(@"%@ has been changed to %@", oldName, capitalizedNameString);
+            NSLog(@"Name changed to %@", capitalizedNameString);
+            [self viewPokedex];
             return;
         }
     }
@@ -89,22 +94,25 @@
     }
 }
 
-- (BOOL)doesOwnPokemon:(NSString *)name {
-    for (Pokemon *pokemon in self.pokedex) {
-        if ([[name lowercaseString] isEqualToString:[pokemon.name lowercaseString]]) {
+- (BOOL)doesOwnPokemon:(NSString *)pokemonIdentifier {
+    for (int i = 0; i < [self.pokedex count]; i++) {
+        Pokemon *pokemon = self.pokedex[i];
+        if ([[pokemonIdentifier lowercaseString] isEqualToString:[pokemon.name lowercaseString]] ||
+            [pokemonIdentifier isEqualToString:[NSString stringWithFormat:@"%i", i]]) {
             return TRUE;
         }
     }
     return false;
 }
 
-- (void)tradeInPokemon:(NSString *)pokemonName; {
+- (void)tradeInPokemon:(NSString *)pokemonIdentifier; {
     for (int i = 0; i < [self.pokedex count]; i++) {
         Pokemon *pokemon = self.pokedex[i];
-        if ([[pokemonName lowercaseString] isEqualToString:[pokemon.name lowercaseString]]) {
+        if ([[pokemonIdentifier lowercaseString] isEqualToString:[pokemon.name lowercaseString]] ||
+            [pokemonIdentifier isEqualToString:[NSString stringWithFormat:@"%i", i]]) {
             [self.pokedex removeObjectAtIndex:i];
             self.numPokeballs += pokemon.value;
-            NSLog(@"%@ has been traded for %i pokeballs (%i pokeballs now).", pokemonName, pokemon.value, self.numPokeballs);
+            NSLog(@"You traded your pokemon for %i pokeballs (%i pokeballs now)... heartless.", pokemon.value, self.numPokeballs);
             return;
         }
     }

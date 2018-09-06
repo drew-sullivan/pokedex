@@ -27,5 +27,6 @@
 - (BOOL)isNamespaced:(NSString *)userInput;
 - (BOOL)isNameUnique:(NSString *)name;
 - (NSString *)getNewName:(NSString *)name;
+- (void)printGameStatus;
 
 @end

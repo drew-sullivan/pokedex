@@ -15,7 +15,16 @@ static NSArray *COMMANDS = nil;
 @implementation RealityController
 
 - (id)initWithStatus:(BOOL)isOngoing {
-    COMMANDS = [NSArray arrayWithObjects:@"s = Switch user", @"p = view Pokedex", @"e = Edit pokemon name", @"r = Release pokemon", @"h = Hunt pokemon", @"c = Create user", @"t = Trade pokemon", @"d = Done", nil];
+    COMMANDS = [NSArray arrayWithObjects:@"h = [h]unt pokemon",
+                                         @"p = view [p]okedex",
+                                         @"e = [e]dit pokemon name",
+                                         @"r = [r]elease pokemon",
+                                         @"t = [t]rade pokemon in for pokeballs",
+                                         @"g = print [g]ame status",
+                                         @"c = [c]reate user",
+                                         @"s = [s]witch user",
+                                         @"d = [d]one",
+                                         nil];
     self = [super init];
     if (self) {
         self.isOngoing = isOngoing;
@@ -108,6 +117,17 @@ static NSArray *COMMANDS = nil;
     int number = [numberString integerValue];
     NSString *newName = [NSString stringWithFormat:@"%@-%i", oldName, number + 1];
     return newName;
+}
+
+- (void)printGameStatus {
+    NSLog(@"\n");
+    NSLog(@"GAME STATUS:\n");
+    for (Person *person in self.people) {
+        NSLog(@"\n");
+        NSLog(@"%@", [person.name uppercaseString]);
+        NSLog(@"NUM POKEBALLS: %i", person.numPokeballs);
+        [person viewPokedex];
+    }
 }
 
 @end
