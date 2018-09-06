@@ -12,13 +12,13 @@
 @interface RealityController : NSObject
 
 @property (nonatomic, strong) User *activeUser;
-@property (nonatomic, strong) NSMutableArray<User*> *people;
+@property (nonatomic, strong) NSMutableArray<User*> *users;
 @property (assign) BOOL isOngoing;
 @property (assign) char previousCommand;
 
 - (id)initWithStatus:(BOOL)isOngoing;
 - (void)changeActiveUser:(NSString *)name;
-- (void)printPeople;
+- (void)printUsers;
 - (void)printActiveUser;
 - (NSString *)getUserInput;
 - (NSMutableArray *)getUserNames;

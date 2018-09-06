@@ -28,13 +28,13 @@ static NSArray *COMMANDS = nil;
     self = [super init];
     if (self) {
         self.isOngoing = isOngoing;
-        self.people = [[NSMutableArray alloc] initWithCapacity:4];
+        self.users = [[NSMutableArray alloc] initWithCapacity:4];
     }
     return self;
 }
 
 - (void)changeActiveUser:(NSString *)name {
-    for (User *user in self.people) {
+    for (User *user in self.users) {
         if ([[user.name lowercaseString]isEqualToString:[name lowercaseString]]) {
             self.activeUser = user;
             NSLog(@"Active User changed to: %@", self.activeUser.name);
@@ -44,8 +44,8 @@ static NSArray *COMMANDS = nil;
     NSLog(@"No such user.");
 }
 
-- (void)printPeople {
-    for (User *user in self.people) {
+- (void)printUsers {
+    for (User *user in self.users) {
         NSLog(@"%@", user.name);
     }
 }
@@ -65,7 +65,7 @@ static NSArray *COMMANDS = nil;
 
 - (NSMutableArray *)getUserNames {
     NSMutableArray *names = [[NSMutableArray alloc] init];
-    for (User *user in self.people) {
+    for (User *user in self.users) {
         [names addObject:[user.name capitalizedString]];
     }
     return names;
@@ -122,7 +122,7 @@ static NSArray *COMMANDS = nil;
 - (void)printGameStatus {
     NSLog(@"\n");
     NSLog(@"GAME STATUS:\n");
-    for (User *user in self.people) {
+    for (User *user in self.users) {
         NSLog(@"\n");
         NSLog(@"%@", [user.name uppercaseString]);
         NSLog(@"NUM POKEBALLS: %i", user.numPokeballs);

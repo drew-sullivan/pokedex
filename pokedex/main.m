@@ -23,17 +23,17 @@ int main(int argc, const char * argv[]) {
         User *cooper = [[User alloc] initWithName:@"Cooper"];
         User *abbott = [[User alloc] initWithName:@"Abbott"];
 
-        [rc.people addObject:drew];
-        [rc.people addObject:rebecca];
-        [rc.people addObject:cooper];
-        [rc.people addObject:abbott];
+        [rc.users addObject:drew];
+        [rc.users addObject:rebecca];
+        [rc.users addObject:cooper];
+        [rc.users addObject:abbott];
 
         Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
         Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
         Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
         Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
         
-        for (User *user in rc.people) {
+        for (User *user in rc.users) {
             [user addPokemon:pikachu];
             [user addPokemon:squirtle];
             [user addPokemon:charmander];
@@ -48,7 +48,7 @@ int main(int argc, const char * argv[]) {
 //        BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
 //        if (!userInputIsNamespaced) {
 //            User *newUser = [[User alloc] initWithName:[userInput capitalizedString]];
-//            [rc.people addObject:newUser];
+//            [rc.users addObject:newUser];
 //            rc.activeUser = newUser;
 //            NSLog(@"Welcome, %@", newUser);
 //        }
@@ -156,7 +156,7 @@ int main(int argc, const char * argv[]) {
                         userInput = newName;
                     }
                     User *newUser = [[User alloc] initWithName:[userInput capitalizedString]];
-                    [rc.people addObject:newUser];
+                    [rc.users addObject:newUser];
                     NSLog(@"%@ has been added.", newUser.name);
                 }
             }
