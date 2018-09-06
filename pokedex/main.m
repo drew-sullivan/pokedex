@@ -56,7 +56,7 @@ int main(int argc, const char * argv[]) {
         #pragma mark - gameplay
         while (rc.isOngoing) {
             [rc printCommands];
-            NSLog(@"What would you like to do, %@?", rc.activeUser.name);
+            NSLog(@"What would you like to do now, %@?", rc.activeUser.name);
             NSString *inputString = [rc getUserInput];
             #pragma mark - d = [done]
             if ([inputString isEqualToString:@"d"]) {

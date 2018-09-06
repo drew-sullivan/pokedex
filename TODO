@@ -1,7 +1,0 @@
-MVP:
--Switch between users
--View current user's pokedex (READ)
--Set Pokemon free (DELETE)
--Catch pokemon (CREATE) based on difficulty level
--Evolve pokemon (UPDATE) and change stats (or just name)
--End game

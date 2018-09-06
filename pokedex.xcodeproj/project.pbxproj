@@ -29,7 +29,6 @@
 /* Begin PBXFileReference section */
 		7C25DF6D21388B2F0088C833 /* Pokemon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pokemon.h; sourceTree = "<group>"; };
 		7C25DF6E21388CC90088C833 /* Pokemon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Pokemon.m; sourceTree = "<group>"; };
-		7C25DF7021388EE50088C833 /* TODO */ = {isa = PBXFileReference; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		7C25DF74213F048B0088C833 /* PokemonStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PokemonStore.h; sourceTree = "<group>"; };
 		7C25DF75213F04970088C833 /* PokemonStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PokemonStore.m; sourceTree = "<group>"; };
 		7C9C91C82141996900946C03 /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -54,7 +53,6 @@
 		7CE9852C2135D8C800096552 = {
 			isa = PBXGroup;
 			children = (
-				7C25DF7021388EE50088C833 /* TODO */,
 				7CE985372135D8C800096552 /* pokedex */,
 				7CE985362135D8C800096552 /* Products */,
 			);
