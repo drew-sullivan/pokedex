@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PokemonStore.h"
+#import "PokeUtility.h"
 #import "RealityController.h"
-#import "User.h"
 
 static NSArray *COMMANDS = nil;
 
 @implementation RealityController
 
-- (id)initWithStatus:(BOOL)isOngoing {
+- (instancetype)initWithStatus:(BOOL)isOngoing {
     COMMANDS = [NSArray arrayWithObjects:@"h = [h]unt pokemon",
                                          @"p = view [p]okedex",
                                          @"e = [e]dit pokemon name",
@@ -54,15 +55,6 @@ static NSArray *COMMANDS = nil;
     NSLog(@"%@", self.activeUser.name);
 }
 
-- (NSString *)getUserInput {
-    NSFileHandle *input = [NSFileHandle fileHandleWithStandardInput];
-    NSData *inputData = [NSData dataWithData:[input availableData]];
-    NSString *inputString = [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding];
-    inputString = [inputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *userInput = [inputString lowercaseString];
-    return userInput;
-}
-
 - (NSMutableArray *)getUserNames {
     NSMutableArray *names = [[NSMutableArray alloc] init];
     for (User *user in self.users) {
@@ -93,19 +85,19 @@ static NSArray *COMMANDS = nil;
     for (NSString *shorthandCommand in [self getShorthandCommands]) {
         if ([letter isEqualToString:shorthandCommand]) {
             NSLog(@"Sorry! That's a namespaced command!");
-            return true;
+            return YES;
         }
     }
-    return false;
+    return NO;
 }
 
 - (BOOL)isNameUnique:(NSString *)name {
     for (NSString *existingName in [self getUserNames]) {
         if ([name isEqualToString:[existingName lowercaseString]]) {
-            return false;
+            return NO;
         }
     }
-    return true;
+    return YES;
 }
 
 - (NSString *)getNewName:(NSString *)oldName {
@@ -129,5 +121,152 @@ static NSArray *COMMANDS = nil;
         [user viewPokedex];
     }
 }
+
+- (void)performReleasePokemonSequence {
+    if (![self.activeUser pokedexIsEmpty]) {
+        [self.activeUser viewPokedex];
+        NSLog(@"Which pokemon would you like to release? You'll receive 1 pokeball back.");
+        NSString *userInput = [PokeUtility getUserInput];
+        BOOL userInputIsNamespaced = [self isNamespaced:userInput];
+        if (!userInputIsNamespaced) {
+            BOOL userDoesOwnPokemon = [self.activeUser doesOwnPokemon:userInput];
+            if (userDoesOwnPokemon) {
+                [self.activeUser releasePokemon:userInput];
+                [self.activeUser viewPokedex];
+            } else {
+                NSLog(@"That is not a pokemon you own.");
+                [self.activeUser viewPokedex];
+            }
+        }
+    } else {
+        NSLog(@"Your pokedex is empty!");
+    }
+}
+
+- (void)performEditPokemonNameSequence {
+    if (![self.activeUser pokedexIsEmpty]) {
+        [self.activeUser viewPokedex];
+        NSLog(@"Which pokemon's name would you like to change?");
+        NSString *userInput = [PokeUtility getUserInput];
+        BOOL userInputIsNamespaced = [self isNamespaced:userInput];
+        if (!userInputIsNamespaced) {
+            BOOL userDoesOwnPokemon = [self.activeUser doesOwnPokemon:userInput];
+            if (userDoesOwnPokemon) {
+                NSLog(@"What would you like to change it to?\n");
+                NSString *newName = [PokeUtility getUserInput];
+                [self.activeUser changePokemonName:userInput changeTo:newName];
+            } else {
+                NSLog(@"That is not a pokemon you own.");
+                [self.activeUser viewPokedex];
+            }
+        }
+    } else {
+        NSLog(@"Your pokedex is empty!");
+    }
+}
+
+- (void)performViewPokedexSequence {
+    if (![self.activeUser pokedexIsEmpty]) {
+        [self.activeUser viewPokedex];
+    } else {
+        NSLog(@"Your pokedex is empty!");
+    }
+}
+
+- (void)performSwitchUserSequence {
+    NSLog(@"To whom? %@", [self getUserNames]);
+    NSString *userInput = [PokeUtility getUserInput];
+    BOOL userInputIsNamespaced = [self isNamespaced:userInput];
+    if (!userInputIsNamespaced) {
+        [self changeActiveUser:userInput];
+    }
+}
+
+- (void)performHuntPokemonSequence {
+    NSLog(@"You are hunting for pokemon...");
+    Pokemon *randomPokemon = [PokemonStore generateRandomPokemon];
+    NSLog(@"You see a wild %@!", randomPokemon.name);
+    if (self.activeUser.numPokeballs < 1) {
+        NSLog(@"You do not have enough pokeballs. Try trading in or releasing one of your pokemon.");
+    } else {
+        NSLog(@"You currently have %i pokeballs. Do you want to try to catch the %@? Y/N.", self.activeUser.numPokeballs, randomPokemon.name);
+        NSString *userInput = [PokeUtility getUserInput];
+        BOOL userInputIsNamespaced = [self isNamespaced:userInput];
+        if (!userInputIsNamespaced) {
+            if ([userInput isEqualToString:@"y"]) {
+                [self.activeUser attemptToCapture:randomPokemon];
+                [self.activeUser viewPokedex];
+            } else {
+                NSLog(@"You back away slowly...");
+            }
+        }
+    }
+}
+
+- (void)performCreateUserSequence {
+    NSLog(@"Name?");
+    NSString *userInput = [PokeUtility getUserInput];
+    BOOL userInputIsNamespaced = [self isNamespaced:userInput];
+    if (!userInputIsNamespaced) {
+        BOOL isUniqueName = [self isNameUnique:userInput];
+        if (!isUniqueName) {
+            NSString *newName = [self getNewName:userInput];
+            userInput = newName;
+        }
+        User *newUser = [[User alloc] initWithName:[userInput capitalizedString]];
+        [self.users addObject:newUser];
+        NSLog(@"%@ has been added.", newUser.name);
+    }
+}
+
+- (void)performDoneSequence {
+    self.isOngoing = NO;
+    NSLog(@"Thanks for playing!");
+}
+
+- (void)performTradeSequence {
+    if (![self.activeUser pokedexIsEmpty]) {
+        [self.activeUser viewPokedex];
+        NSLog(@"Which pokemon would you like to trade in?");
+        NSString *userInput = [PokeUtility getUserInput];
+        BOOL userInputIsNamespaced = [self isNamespaced:userInput];
+        if (!userInputIsNamespaced) {
+            BOOL ownsPokemon = [self.activeUser doesOwnPokemon:userInput];
+            if (ownsPokemon) {
+                NSLog(@"Are you sure you'd like to trade in this pokemon? Y/N.");
+                NSString *answer = [PokeUtility getUserInput];
+                if ([answer isEqualToString:@"y"]) {
+                    [self.activeUser tradeInPokemon:userInput];
+                    [self.activeUser viewPokedex];
+                } else {
+                    NSLog(@"No pokemon traded in.");
+                }
+            } else {
+                [self.activeUser viewPokedex];
+                NSLog(@"You don't own a pokemon by that name.");
+            }
+        }
+    } else {
+        NSLog(@"Your pokedex is empty!");
+    }
+}
+
+- (void)performRegisterUserSequence {
+    NSLog(@"Please enter your name:");
+    NSString *userInput = [PokeUtility getUserInput];
+    BOOL userInputIsNamespaced = [self isNamespaced:userInput];
+    if (!userInputIsNamespaced) {
+        User *newUser = [[User alloc] initWithName:[userInput capitalizedString]];
+        [self.users addObject:newUser];
+        self.activeUser = newUser;
+        NSLog(@"Welcome, %@!", newUser.name);
+    }
+}
+
+- (void)performIntroSequence {
+    [self printCommands];
+    NSLog(@"What would you like to do now, %@?", self.activeUser.name);
+}
+
 
 @end

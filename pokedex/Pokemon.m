@@ -11,7 +11,7 @@
 
 @implementation Pokemon
 
-- (id)initWithNameAndCaptureDifficulty:(NSString *)name and:(int)captureDifficulty {
+- (instancetype)initWithNameAndCaptureDifficulty:(NSString *)name and:(int)captureDifficulty {
     self = [super init];
     if (self) {
         self.name = name;

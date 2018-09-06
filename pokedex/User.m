@@ -13,7 +13,7 @@
 
 @implementation User
 
-- (id)initWithName:(NSString *)name {
+- (instancetype)initWithName:(NSString *)name {
     self = [super init];
     if (self) {
         self.name = name;
@@ -84,10 +84,10 @@
         Pokemon *pokemon = self.pokedex[i];
         if ([[pokemonIdentifier lowercaseString] isEqualToString:[pokemon.name lowercaseString]] ||
             [pokemonIdentifier isEqualToString:[NSString stringWithFormat:@"%i", i]]) {
-            return TRUE;
+            return YES;
         }
     }
-    return false;
+    return NO;
 }
 
 - (void)tradeInPokemon:(NSString *)pokemonIdentifier; {

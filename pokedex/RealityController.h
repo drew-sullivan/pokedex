@@ -20,7 +20,6 @@
 - (void)changeActiveUser:(NSString *)name;
 - (void)printUsers;
 - (void)printActiveUser;
-- (NSString *)getUserInput;
 - (NSMutableArray *)getUserNames;
 - (void)printCommands;
 - (NSMutableArray *)getShorthandCommands;
@@ -28,5 +27,15 @@
 - (BOOL)isNameUnique:(NSString *)name;
 - (NSString *)getNewName:(NSString *)name;
 - (void)printGameStatus;
+- (void)performReleasePokemonSequence;
+- (void)performEditPokemonNameSequence;
+- (void)performViewPokedexSequence;
+- (void)performSwitchUserSequence;
+- (void)performHuntPokemonSequence;
+- (void)performCreateUserSequence;
+- (void)performDoneSequence;
+- (void)performTradeSequence;
+- (void)performRegisterUserSequence;
+- (void)performIntroSequence;
 
 @end

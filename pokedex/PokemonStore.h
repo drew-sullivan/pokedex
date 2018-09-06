@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Pokemon.h"
 
 @interface PokemonStore : NSObject { }
 
