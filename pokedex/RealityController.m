@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RealityController.h"
-#import "Person.h"
+#import "User.h"
 
 static NSArray *COMMANDS = nil;
 
@@ -33,11 +33,11 @@ static NSArray *COMMANDS = nil;
     return self;
 }
 
-- (void)changeActivePerson:(NSString *)name {
-    for (Person *person in self.people) {
-        if ([[person.name lowercaseString]isEqualToString:[name lowercaseString]]) {
-            self.activePlayer = person;
-            NSLog(@"Active User changed to: %@", self.activePlayer.name);
+- (void)changeActiveUser:(NSString *)name {
+    for (User *user in self.people) {
+        if ([[user.name lowercaseString]isEqualToString:[name lowercaseString]]) {
+            self.activeUser = user;
+            NSLog(@"Active User changed to: %@", self.activeUser.name);
             return;
         }
     }
@@ -45,13 +45,13 @@ static NSArray *COMMANDS = nil;
 }
 
 - (void)printPeople {
-    for (Person *person in self.people) {
-        NSLog(@"%@", person.name);
+    for (User *user in self.people) {
+        NSLog(@"%@", user.name);
     }
 }
 
-- (void)printActivePlayer {
-    NSLog(@"%@", self.activePlayer.name);
+- (void)printActiveUser {
+    NSLog(@"%@", self.activeUser.name);
 }
 
 - (NSString *)getUserInput {
@@ -65,8 +65,8 @@ static NSArray *COMMANDS = nil;
 
 - (NSMutableArray *)getUserNames {
     NSMutableArray *names = [[NSMutableArray alloc] init];
-    for (Person *person in self.people) {
-        [names addObject:[person.name capitalizedString]];
+    for (User *user in self.people) {
+        [names addObject:[user.name capitalizedString]];
     }
     return names;
 }
@@ -87,10 +87,6 @@ static NSArray *COMMANDS = nil;
         [shorthandCommands addObject:shorthandCommand];
     }
     return shorthandCommands;
-}
-
-- (NSArray *)getCommands {
-    return COMMANDS;
 }
 
 - (BOOL)isNamespaced:(NSString *)letter {
@@ -118,7 +114,7 @@ static NSArray *COMMANDS = nil;
     NSCharacterSet *numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
     [scanner scanUpToCharactersFromSet:numbers intoString:NULL];
     [scanner scanCharactersFromSet:numbers intoString:&numberString];
-    int number = [numberString integerValue];
+    int number = (int)[numberString integerValue];
     NSString *newName = [NSString stringWithFormat:@"%@-%i", oldName, number + 1];
     return newName;
 }
@@ -126,11 +122,11 @@ static NSArray *COMMANDS = nil;
 - (void)printGameStatus {
     NSLog(@"\n");
     NSLog(@"GAME STATUS:\n");
-    for (Person *person in self.people) {
+    for (User *user in self.people) {
         NSLog(@"\n");
-        NSLog(@"%@", [person.name uppercaseString]);
-        NSLog(@"NUM POKEBALLS: %i", person.numPokeballs);
-        [person viewPokedex];
+        NSLog(@"%@", [user.name uppercaseString]);
+        NSLog(@"NUM POKEBALLS: %i", user.numPokeballs);
+        [user viewPokedex];
     }
 }
 

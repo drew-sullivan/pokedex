@@ -1,8 +1,8 @@
 //
-//  Person.h
+//  User.h
 //  pokedex
 //
-//  Created by Drew Sullivan on 8/28/18.
+//  Created by Drew Sullivan on 9/6/18.
 //  Copyright © 2018 Drew Sullivan, DMA. All rights reserved.
 //
 
@@ -15,9 +15,10 @@
 @property (assign) BOOL isActive;
 @property (nonatomic, strong) NSMutableArray<Pokemon*> *pokedex;
 @property (assign) int numPokeballs;
+@property (strong, nonatomic) NSTimer *timer;
 
-- (id) initWithName:(NSString *)name;
 - (void)printName;
+- (id) initWithName:(NSString *)name;
 - (void)viewPokedex;
 - (void)addPokemon:(Pokemon *)pokemon;
 - (void)releasePokemon:(NSString *)pokemonName;

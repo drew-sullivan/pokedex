@@ -1,11 +1,12 @@
 //
-//  Person.m
+//  User.m
 //  pokedex
 //
-//  Created by Drew Sullivan on 8/28/18.
+//  Created by Drew Sullivan on 9/6/18.
 //  Copyright © 2018 Drew Sullivan, DMA. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "User.h"
 #import "Pokemon.h"
 #import "PokemonStore.h"
@@ -79,7 +80,14 @@
 }
 
 - (BOOL)doesOwnPokemon:(NSString *)pokemonIdentifier {
-    return [self getPokemonIndexInPokedex:pokemonIdentifier] >= 0;
+    for (int i = 0; i < [self.pokedex count]; i++) {
+        Pokemon *pokemon = self.pokedex[i];
+        if ([[pokemonIdentifier lowercaseString] isEqualToString:[pokemon.name lowercaseString]] ||
+            [pokemonIdentifier isEqualToString:[NSString stringWithFormat:@"%i", i]]) {
+            return TRUE;
+        }
+    }
+    return false;
 }
 
 - (void)tradeInPokemon:(NSString *)pokemonIdentifier; {

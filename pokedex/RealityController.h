@@ -7,23 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Person.h"
+#import "User.h"
 
 @interface RealityController : NSObject
 
-@property (nonatomic, strong) Person *activePlayer;
-@property (nonatomic, strong) NSMutableArray<Person*> *people;
+@property (nonatomic, strong) User *activeUser;
+@property (nonatomic, strong) NSMutableArray<User*> *people;
 @property (assign) BOOL isOngoing;
 @property (assign) char previousCommand;
 
 - (id)initWithStatus:(BOOL)isOngoing;
-- (void)changeActivePerson:(NSString *)name;
+- (void)changeActiveUser:(NSString *)name;
 - (void)printPeople;
-- (void)printActivePlayer;
+- (void)printActiveUser;
 - (NSString *)getUserInput;
 - (NSMutableArray *)getUserNames;
 - (void)printCommands;
-- (NSArray *)getCommands;
 - (NSMutableArray *)getShorthandCommands;
 - (BOOL)isNamespaced:(NSString *)userInput;
 - (BOOL)isNameUnique:(NSString *)name;
