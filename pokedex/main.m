@@ -7,51 +7,51 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "User.h"
-#import "Pokemon.h"
-#import "RealityController.h"
-#import "PokemonStore.h"
 #import <stdlib.h>
+#import "Pokemon.h"
+#import "PokemonStore.h"
+#import "RealityController.h"
+#import "User.h"
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         RealityController *rc = [[RealityController alloc] initWithStatus:true];
         
         // Uncomment to test
-        User *drew = [[User alloc] initWithName:@"Drew"];
-        User *rebecca = [[User alloc] initWithName:@"Rebecca"];
-        User *cooper = [[User alloc] initWithName:@"Cooper"];
-        User *abbott = [[User alloc] initWithName:@"Abbott"];
-
-        [rc.users addObject:drew];
-        [rc.users addObject:rebecca];
-        [rc.users addObject:cooper];
-        [rc.users addObject:abbott];
-
-        Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
-        Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
-        Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
-        Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
-        
-        for (User *user in rc.users) {
-            [user addPokemon:pikachu];
-            [user addPokemon:squirtle];
-            [user addPokemon:charmander];
-            [user addPokemon:bulbasaur];
-        }
-        
-        rc.activeUser = drew;
+//        User *drew = [[User alloc] initWithName:@"Drew"];
+//        User *rebecca = [[User alloc] initWithName:@"Rebecca"];
+//        User *cooper = [[User alloc] initWithName:@"Cooper"];
+//        User *abbott = [[User alloc] initWithName:@"Abbott"];
+//
+//        [rc.users addObject:drew];
+//        [rc.users addObject:rebecca];
+//        [rc.users addObject:cooper];
+//        [rc.users addObject:abbott];
+//
+//        Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
+//        Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
+//        Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
+//        Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
+//
+//        for (User *user in rc.users) {
+//            [user addPokemon:pikachu];
+//            [user addPokemon:squirtle];
+//            [user addPokemon:charmander];
+//            [user addPokemon:bulbasaur];
+//        }
+//
+//        rc.activeUser = drew;
         
         #pragma mark - registration
-//        NSLog(@"Please enter your name:");
-//        NSString *userInput = [rc getUserInput];
-//        BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
-//        if (!userInputIsNamespaced) {
-//            User *newUser = [[User alloc] initWithName:[userInput capitalizedString]];
-//            [rc.users addObject:newUser];
-//            rc.activeUser = newUser;
-//            NSLog(@"Welcome, %@", newUser);
-//        }
+        NSLog(@"Please enter your name:");
+        NSString *userInput = [rc getUserInput];
+        BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
+        if (!userInputIsNamespaced) {
+            User *newUser = [[User alloc] initWithName:[userInput capitalizedString]];
+            [rc.users addObject:newUser];
+            rc.activeUser = newUser;
+            NSLog(@"Welcome, %@!", newUser.name);
+        }
         
         #pragma mark - gameplay
         while (rc.isOngoing) {

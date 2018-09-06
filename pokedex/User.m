@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "User.h"
 #import "Pokemon.h"
 #import "PokemonStore.h"
+#import "User.h"
 
 @implementation User
 
