@@ -17,58 +17,71 @@ int main(int argc, const char * argv[]) {
     @autoreleasepool {
         RealityController *rc = [[RealityController alloc] initWithStatus:true];
         
-//        Person *drew = [[Person alloc] initWithName:@"Drew"];
-//        Person *rebecca = [[Person alloc] initWithName:@"Rebecca"];
-//        Person *cooper = [[Person alloc] initWithName:@"Cooper"];
-//        Person *abbott = [[Person alloc] initWithName:@"Abbott"];
-//
-//        [rc.people addObject:drew];
-//        [rc.people addObject:rebecca];
-//        [rc.people addObject:cooper];
-//        [rc.people addObject:abbott];
-//
-//        Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
-//        Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
-//        Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
-//        Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
+        // Uncomment to test
+        Person *drew = [[Person alloc] initWithName:@"Drew"];
+        Person *rebecca = [[Person alloc] initWithName:@"Rebecca"];
+        Person *cooper = [[Person alloc] initWithName:@"Cooper"];
+        Person *abbott = [[Person alloc] initWithName:@"Abbott"];
+
+        [rc.people addObject:drew];
+        [rc.people addObject:rebecca];
+        [rc.people addObject:cooper];
+        [rc.people addObject:abbott];
+
+        Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
+        Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
+        Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
+        Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
         
-//        for (Person *person in rc.people) {
-//            [person addPokemon:pikachu];
-//            [person addPokemon:squirtle];
-//            [person addPokemon:charmander];
-//            [person addPokemon:bulbasaur];
+        for (Person *person in rc.people) {
+            [person addPokemon:pikachu];
+            [person addPokemon:squirtle];
+            [person addPokemon:charmander];
+            [person addPokemon:bulbasaur];
+        }
+        
+        rc.activePlayer = drew;
+        
+        #pragma mark - registration
+//        NSLog(@"Please enter your name:");
+//        NSString *userInput = [rc getUserInput];
+//        BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
+//        if (!userInputIsNamespaced) {
+//            Person *newPerson = [[Person alloc] initWithName:[userInput capitalizedString]];
+//            [rc.people addObject:newPerson];
+//            rc.activePlayer = newPerson;
+//            NSLog(@"Welcome, %@", newPerson.name);
 //        }
         
-//        rc.activePlayer = drew;
-        
-        
-        
-        NSLog(@"Please enter your name:");
-        NSString *userInput = [rc getUserInput];
-        BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
-        if (!userInputIsNamespaced) {
-            Person *newPerson = [[Person alloc] initWithName:[userInput capitalizedString]];
-            [rc.people addObject:newPerson];
-            rc.activePlayer = newPerson;
-            NSLog(@"Welcome, %@", newPerson.name);
-        }
+        #pragma mark - gameplay
         while (rc.isOngoing) {
             [rc printCommands];
             NSLog(@"What would you like to do, %@?", rc.activePlayer.name);
             NSString *inputString = [rc getUserInput];
+            #pragma mark - d = [done]
             if ([inputString isEqualToString:@"d"]) {
                 rc.isOngoing = NO;
                 NSLog(@"Thanks for playing!");
-            } else if ([inputString isEqualToString:@"s"]) {
+            }
+            #pragma mark - s = [s]witch user
+            else if ([inputString isEqualToString:@"s"]) {
                 NSLog(@"To whom? %@", [rc getUserNames]);
                 NSString *userInput = [rc getUserInput];
                 BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
                 if (!userInputIsNamespaced) {
                     [rc changeActivePerson:userInput];
                 }
-            } else if ([inputString isEqualToString:@"p"]) {
+            }
+            #pragma mark - p = view [p]okedex
+            else if ([inputString isEqualToString:@"p"]) {
+                if ([rc.activePlayer pokedexIsEmpty]) {
+                    NSLog(@"Your pokedex is empty!");
+                    continue;
+                }
                 [rc.activePlayer viewPokedex];
-            } else if ([inputString isEqualToString:@"e"]) {
+            }
+            #pragma mark - e = [e]dit pokemon name
+            else if ([inputString isEqualToString:@"e"]) {
                 if ([rc.activePlayer pokedexIsEmpty]) {
                     NSLog(@"Your pokedex is empty!");
                     continue;
@@ -88,7 +101,9 @@ int main(int argc, const char * argv[]) {
                         [rc.activePlayer viewPokedex];
                     }
                 }
-            } else if ([inputString isEqualToString:@"r"]) {
+            }
+            #pragma mark - r = [r]elease pokemon
+            else if ([inputString isEqualToString:@"r"]) {
                 if ([rc.activePlayer pokedexIsEmpty]) {
                     NSLog(@"Your pokedex is empty!");
                     continue;
@@ -107,7 +122,9 @@ int main(int argc, const char * argv[]) {
                         [rc.activePlayer viewPokedex];
                     }
                 }
-            } else if ([inputString isEqualToString:@"h"]) {
+            }
+            #pragma mark - h = [h] pokemon
+            else if ([inputString isEqualToString:@"h"]) {
                 NSLog(@"You are hunting for pokemon...");
                 Pokemon *randomPokemon = [PokemonStore generateRandomPokemon];
                 NSLog(@"You see a wild %@!", randomPokemon.name);
@@ -126,7 +143,9 @@ int main(int argc, const char * argv[]) {
                         }
                     }
                 }
-            } else if ([inputString isEqualToString:@"c"]) {
+            }
+            #pragma mark - c = [c]reate user
+            else if ([inputString isEqualToString:@"c"]) {
                 NSLog(@"Name?");
                 NSString *userInput = [rc getUserInput];
                 BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
@@ -140,7 +159,9 @@ int main(int argc, const char * argv[]) {
                     [rc.people addObject:newPerson];
                     NSLog(@"%@ has been added.", newPerson.name);
                 }
-            } else if ([inputString isEqualToString:@"t"]) {
+            }
+            #pragma mark - t = [t]rade pokemon in
+            else if ([inputString isEqualToString:@"t"]) {
                 if ([rc.activePlayer pokedexIsEmpty]) {
                     NSLog(@"Your pokedex is empty!");
                     continue;
@@ -165,7 +186,9 @@ int main(int argc, const char * argv[]) {
                         NSLog(@"You don't own a pokemon by that name.");
                     }
                 }
-            } else if ([inputString isEqualToString:@"g"]) {
+            }
+            #pragma mark - g = print [g]ame status
+            else if ([inputString isEqualToString:@"g"]) {
                 [rc printGameStatus];
             } else {
                 NSLog(@"Unknown command. Please try another.");
