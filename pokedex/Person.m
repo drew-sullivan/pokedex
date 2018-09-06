@@ -118,4 +118,8 @@
     }
 }
 
+- (BOOL)pokedexIsEmpty {
+    return [self.pokedex count] < 1;
+}
+
 @end

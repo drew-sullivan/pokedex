@@ -17,42 +17,41 @@ int main(int argc, const char * argv[]) {
     @autoreleasepool {
         RealityController *rc = [[RealityController alloc] initWithStatus:true];
         
-        Person *drew = [[Person alloc] initWithName:@"Drew"];
-        Person *rebecca = [[Person alloc] initWithName:@"Rebecca"];
-        Person *cooper = [[Person alloc] initWithName:@"Cooper"];
-        Person *abbott = [[Person alloc] initWithName:@"Abbott"];
+//        Person *drew = [[Person alloc] initWithName:@"Drew"];
+//        Person *rebecca = [[Person alloc] initWithName:@"Rebecca"];
+//        Person *cooper = [[Person alloc] initWithName:@"Cooper"];
+//        Person *abbott = [[Person alloc] initWithName:@"Abbott"];
+//
+//        [rc.people addObject:drew];
+//        [rc.people addObject:rebecca];
+//        [rc.people addObject:cooper];
+//        [rc.people addObject:abbott];
+//
+//        Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
+//        Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
+//        Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
+//        Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
         
-        [rc.people addObject:drew];
-        [rc.people addObject:rebecca];
-        [rc.people addObject:cooper];
-        [rc.people addObject:abbott];
-        
-        Pokemon *pikachu = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Pikachu" and:50];
-        Pokemon *squirtle = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Squirtle" and:80];
-        Pokemon *charmander = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Charmander" and:80];
-        Pokemon *bulbasaur = [[Pokemon alloc] initWithNameAndCaptureDifficulty:@"Bulbasaur" and:80];
-        
-        for (Person *person in rc.people) {
-            [person addPokemon:pikachu];
-            [person addPokemon:squirtle];
-            [person addPokemon:charmander];
-            [person addPokemon:bulbasaur];
-        }
-        
-        rc.activePlayer = drew;
-        
-//        NSLog(@"Please enter your name:");
-//        NSString *userInput = [rc getUserInput];
-//        BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
-//        if (!userInputIsNamespaced) {
-//            Person *newPerson = [[Person alloc] initWithName:[userInput capitalizedString]];
-//            [rc.people addObject:newPerson];
-//            rc.activePlayer = newPerson;
-//            NSLog(@"Welcome, %@", newPerson.name);
+//        for (Person *person in rc.people) {
+//            [person addPokemon:pikachu];
+//            [person addPokemon:squirtle];
+//            [person addPokemon:charmander];
+//            [person addPokemon:bulbasaur];
 //        }
         
-        [rc printGameStatus];
+//        rc.activePlayer = drew;
         
+        
+        
+        NSLog(@"Please enter your name:");
+        NSString *userInput = [rc getUserInput];
+        BOOL userInputIsNamespaced = [rc isNamespaced:userInput];
+        if (!userInputIsNamespaced) {
+            Person *newPerson = [[Person alloc] initWithName:[userInput capitalizedString]];
+            [rc.people addObject:newPerson];
+            rc.activePlayer = newPerson;
+            NSLog(@"Welcome, %@", newPerson.name);
+        }
         while (rc.isOngoing) {
             [rc printCommands];
             NSLog(@"What would you like to do, %@?", rc.activePlayer.name);
@@ -70,6 +69,10 @@ int main(int argc, const char * argv[]) {
             } else if ([inputString isEqualToString:@"p"]) {
                 [rc.activePlayer viewPokedex];
             } else if ([inputString isEqualToString:@"e"]) {
+                if ([rc.activePlayer pokedexIsEmpty]) {
+                    NSLog(@"Your pokedex is empty!");
+                    continue;
+                }
                 [rc.activePlayer viewPokedex];
                 NSLog(@"Which pokemon's name would you like to change?");
                 NSString *userInput = [rc getUserInput];
@@ -86,6 +89,10 @@ int main(int argc, const char * argv[]) {
                     }
                 }
             } else if ([inputString isEqualToString:@"r"]) {
+                if ([rc.activePlayer pokedexIsEmpty]) {
+                    NSLog(@"Your pokedex is empty!");
+                    continue;
+                }
                 [rc.activePlayer viewPokedex];
                 NSLog(@"Which pokemon would you like to release? You'll receive 1 pokeball back.");
                 NSString *userInput = [rc getUserInput];
@@ -134,6 +141,10 @@ int main(int argc, const char * argv[]) {
                     NSLog(@"%@ has been added.", newPerson.name);
                 }
             } else if ([inputString isEqualToString:@"t"]) {
+                if ([rc.activePlayer pokedexIsEmpty]) {
+                    NSLog(@"Your pokedex is empty!");
+                    continue;
+                }
                 [rc.activePlayer viewPokedex];
                 NSLog(@"Which pokemon would you like to trade in?");
                 NSString *userInput = [rc getUserInput];

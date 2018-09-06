@@ -89,6 +89,10 @@ static NSArray *COMMANDS = nil;
     return shorthandCommands;
 }
 
+- (NSArray *)getCommands {
+    return COMMANDS;
+}
+
 - (BOOL)isNamespaced:(NSString *)letter {
     for (NSString *shorthandCommand in [self getShorthandCommands]) {
         if ([letter isEqualToString:shorthandCommand]) {

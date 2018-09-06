@@ -23,6 +23,7 @@
 - (NSString *)getUserInput;
 - (NSMutableArray *)getUserNames;
 - (void)printCommands;
+- (NSArray *)getCommands;
 - (NSMutableArray *)getShorthandCommands;
 - (BOOL)isNamespaced:(NSString *)userInput;
 - (BOOL)isNameUnique:(NSString *)name;
